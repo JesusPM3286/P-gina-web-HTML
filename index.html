@@ -1,0 +1,504 @@
+# script_dashboard_supervisores.py
+# Genera una aplicación web HTML orientada a ingenieros/supervisores con imágenes funcionales de ladrilleras y tejerías artesanales.
+
+html_content = """<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Monitoreo Ambiental - San Jerónimo, Cusco</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para gráficos estadísticos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tab-active {
+            border-bottom: 3px solid #10B981;
+            color: #10B981;
+            font-weight: bold;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- CABECERA DE SUPERVISIÓN -->
+    <header class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex flex-wrap justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="bg-emerald-600 p-2.5 rounded-lg text-white font-bold">
+                <i class="fa-solid fa-industry text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-wide text-white">ECO-MONITOR | San Jerónimo (Cusco)</h1>
+                <p class="text-xs text-slate-400">Plataforma de Supervisión para Ingenieros y Fiscalizadores Ambientales</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-6 text-sm">
+            <div class="hidden md:flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-slate-300">215 Hornos Totales | 194 Productores</span>
+            </div>
+            <div class="text-right">
+                <div class="text-xs text-slate-400">Rol: Supervisor Ambiental</div>
+                <div class="font-semibold text-emerald-400">Ing. de Guardia</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVEGACIÓN DE 3 APARTADOS PRINCIPALES -->
+    <nav class="bg-slate-900/90 border-b border-slate-800 px-6 flex space-x-8">
+        <button onclick="switchTab('sensores')" id="tab-sensores" class="py-4 px-2 tab-active transition-all flex items-center space-x-2">
+            <i class="fa-solid fa-microchip"></i>
+            <span>1. Red de Sensores (3.55)</span>
+        </button>
+        <button onclick="switchTab('imagenes')" id="tab-imagenes" class="py-4 px-2 text-slate-400 hover:text-white transition-all flex items-center space-x-2">
+            <i class="fa-solid fa-eye"></i>
+            <span>2. Visión por Imágenes (3.15)</span>
+        </button>
+        <button onclick="switchTab('asistente')" id="tab-asistente" class="py-4 px-2 text-slate-400 hover:text-white transition-all flex items-center space-x-2">
+            <i class="fa-solid fa-robot"></i>
+            <span>3. Asistente IA Elegido (3.85)</span>
+        </button>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+
+        <!-- ==================== APARTADO 1: SENSORES ==================== -->
+        <section id="sec-sensores" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-emerald-500">
+                    <div class="text-slate-400 text-xs font-semibold">CALIDAD DEL AIRE (ICA)</div>
+                    <div class="text-3xl font-extrabold text-emerald-400 mt-1">84 <span class="text-sm font-normal text-slate-400">AQI</span></div>
+                    <div class="text-xs text-emerald-400/80 mt-1"><i class="fa-solid fa-circle-check"></i> Moderado - San Jerónimo</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-amber-500">
+                    <div class="text-slate-400 text-xs font-semibold">CONCENTRACIÓN SO₂</div>
+                    <div class="text-3xl font-extrabold text-amber-400 mt-1">42.8 <span class="text-sm font-normal text-slate-400">µg/m³</span></div>
+                    <div class="text-xs text-amber-400/80 mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Pico en quema vespertina</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-red-500">
+                    <div class="text-slate-400 text-xs font-semibold">MONÓXIDO DE CARBONO (CO)</div>
+                    <div class="text-3xl font-extrabold text-red-400 mt-1">9.2 <span class="text-sm font-normal text-slate-400">ppm</span></div>
+                    <div class="text-xs text-red-400/80 mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Alerta en Sucso Auccaylle</div>
+                </div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-blue-500">
+                    <div class="text-slate-400 text-xs font-semibold">SENSORES ACTIVOS</div>
+                    <div class="text-3xl font-extrabold text-blue-400 mt-1">18 / 20</div>
+                    <div class="text-xs text-slate-400 mt-1">Telemetría en tiempo real</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-slate-200"><i class="fa-solid fa-chart-line text-emerald-400 mr-2"></i>Monitoreo Continuo de Emisiones (SO₂ y CO)</h3>
+                        <span class="text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded">Últimas 24 Horas</span>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="chartSensores"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-slate-200"><i class="fa-solid fa-map-location-dot text-emerald-400 mr-2"></i>Estado por Sectores de San Jerónimo</h3>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-1 rounded">215 Hornos Registrados</span>
+                    </div>
+                    <div class="space-y-4 text-sm">
+                        <div class="bg-slate-900/60 p-3 rounded-lg flex justify-between items-center border border-slate-800">
+                            <div>
+                                <div class="font-medium text-white">Sector 1: Sucso Auccaylle</div>
+                                <div class="text-xs text-slate-400">85 hornos detectados | 12 activos en quema</div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded text-xs font-semibold">Alerta Media</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-lg flex justify-between items-center border border-slate-800">
+                            <div>
+                                <div class="font-medium text-white">Sector 2: Collana San Jerónimo</div>
+                                <div class="text-xs text-slate-400">62 hornos detectados | 4 activos en quema</div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded text-xs font-semibold">Normal</span>
+                        </div>
+                        <div class="bg-slate-900/60 p-3 rounded-lg flex justify-between items-center border border-slate-800">
+                            <div>
+                                <div class="font-medium text-white">Sector 3: Patapata / Pampa</div>
+                                <div class="text-xs text-slate-400">68 hornos detectados | 18 activos en quema</div>
+                            </div>
+                            <span class="px-2.5 py-1 bg-red-500/20 text-red-400 border border-red-500/30 rounded text-xs font-semibold">Crítico (CO Alto)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== APARTADO 2: VISIÓN POR IMÁGENES ==================== -->
+        <section id="sec-imagenes" class="space-y-6 hidden">
+            <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-semibold text-slate-200"><i class="fa-solid fa-camera text-blue-400 mr-2"></i>Detección Visual e Inspección de Hornos en San Jerónimo</h3>
+                        <p class="text-xs text-slate-400">Selecciona cualquier registro para ver el reporte técnico del horno y la prioridad de inspección</p>
+                    </div>
+                    <span class="bg-blue-500/20 text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-500/30 font-semibold">Modelo YOLOv8: 91.4% Precisión</span>
+                </div>
+
+                <!-- GALERÍA DE IMÁGENES REALES Y CORREGIDAS (Ladrilleras / Tejerías) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Tarjeta 1: Ladrillera artesanal en quema activa -->
+                    <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg hover:border-slate-700 transition-all flex flex-col">
+                        <div class="relative h-48 overflow-hidden bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=600&q=80" alt="Horno Ladrillero Activo" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-red-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">
+                                <i class="fa-solid fa-fire mr-1"></i> HORNO ACTIVO
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-slate-900/90 text-slate-200 text-xs px-2 py-0.5 rounded font-mono">
+                                Confianza IA: 96%
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Horno Ladrillero SJ-042</h4>
+                                <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-slate-500 mr-1"></i>Sector Sucso Auccaylle</p>
+                                <p class="text-xs text-amber-400 mt-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Emisión de humo denso gris/negro</p>
+                            </div>
+                            <button onclick="mostrarModalHorno('SJ-042', 'Sucso Auccaylle', 'Activo (Quema Ineficiente)', '48.5 µg/m³', '11.8 ppm', 'Quema artesanal detected con combustible de alta emisión. Alta densidad de monóxido de carbono. Requiere visita de fiscalización preventiva inmediata.')" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition-all shadow">
+                                <i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Inspeccionar Registro
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 2: Tejería / Ladrillería inactiva / secado de ladrillos -->
+                    <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg hover:border-slate-700 transition-all flex flex-col">
+                        <div class="relative h-48 overflow-hidden bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1584467735871-8e85353a8413?auto=format&fit=crop&w=600&q=80" alt="Tejería y secado de ladrillos" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">
+                                <i class="fa-solid fa-snowflake mr-1"></i> INACTIVO (Secado)
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-slate-900/90 text-slate-200 text-xs px-2 py-0.5 rounded font-mono">
+                                Confianza IA: 98%
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Tejería / Horno SJ-089</h4>
+                                <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-slate-500 mr-1"></i>Sector Collana</p>
+                                <p class="text-xs text-emerald-400 mt-2"><i class="fa-solid fa-check-circle mr-1"></i>En etapa de moldeo y secado al aire libre</p>
+                            </div>
+                            <button onclick="mostrarModalHorno('SJ-089', 'Collana', 'Inactivo (Moldeo)', '12.1 µg/m³', '2.4 ppm', 'Sin combustión activa. Área en fase de secado previo al cargado del horno. Productor integrado al programa de buenas prácticas de la UNSAAC.')" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg border border-slate-700 transition-all">
+                                <i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Inspeccionar Registro
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 3: Horno artesanal tradicional en inicio de quema -->
+                    <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg hover:border-slate-700 transition-all flex flex-col">
+                        <div class="relative h-48 overflow-hidden bg-slate-950">
+                            <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=600&q=80" alt="Combustión de horno artesanal" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 bg-amber-600 text-white text-xs px-2.5 py-1 rounded font-bold shadow">
+                                <i class="fa-solid fa-fire-burner mr-1"></i> INICIO DE QUEMA
+                            </span>
+                            <span class="absolute bottom-3 right-3 bg-slate-900/90 text-slate-200 text-xs px-2 py-0.5 rounded font-mono">
+                                Confianza IA: 89%
+                            </span>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                            <div>
+                                <h4 class="font-bold text-white text-base">Horno Ladrillero SJ-115</h4>
+                                <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-slate-500 mr-1"></i>Sector Patapata</p>
+                                <p class="text-xs text-amber-400 mt-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Humo inicial por precalentamiento</p>
+                            </div>
+                            <button onclick="mostrarModalHorno('SJ-115', 'Patapata', 'Inicio de Quema', '31.4 µg/m³', '6.1 ppm', 'Proceso de precalentamiento iniciado hace 25 min. El bot de WhatsApp derivó recomendaciones de tiro eficiente de chimenea.')" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition-all shadow">
+                                <i class="fa-solid fa-magnifying-glass-chart mr-1"></i> Inspeccionar Registro
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- COMPARACIÓN DE EVALUACIÓN TÉCNICA DEL PPT -->
+            <div class="glass-panel p-5 rounded-xl border border-slate-800">
+                <h3 class="font-semibold text-slate-200 mb-4"><i class="fa-solid fa-chart-bar text-emerald-400 mr-2"></i>Evaluación Comparativa del Proyecto (Matriz de Selección)</h3>
+                <div class="h-48">
+                    <canvas id="chartMatriz"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== APARTADO 3: ASISTENTE DE IA ==================== -->
+        <section id="sec-asistente" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- SIMULADOR INTERACTIVO DE CHAT WHATSAPP -->
+                <div class="lg:col-span-2 glass-panel rounded-xl border border-slate-800 flex flex-col h-[520px]">
+                    <div class="bg-emerald-900/40 border-b border-emerald-800/50 p-4 flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-white text-sm">Asistente IA - Ladrilleras Limpias (San Jerónimo)</div>
+                            <div class="text-xs text-emerald-400">En línea | Canal Orientador para Productores y Técnicos</div>
+                        </div>
+                    </div>
+
+                    <div id="chat-body" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-950/50 text-sm">
+                        <div class="bg-slate-800/80 p-3 rounded-lg max-w-md border border-slate-700">
+                            <p class="text-slate-200">¡Hola! Soy el asistente virtual. Oriento a los 194 productores de San Jerónimo en quema limpia y formalización.</p>
+                            <ul class="list-disc ml-5 mt-1 text-xs text-slate-300 space-y-1">
+                                <li>Consejos para reducir humo negro y gases.</li>
+                                <li>Requisitos para formalización ante la Municipalidad/OEFA.</li>
+                                <li>Derivación directa con supervisores de campo.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 border-t border-slate-800 flex space-x-2">
+                        <input id="chat-input" type="text" placeholder="Escribe tu consulta o prueba: '¿Cómo reduzco emisiones?'..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                        <button onclick="enviarMensaje()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL DE GESTIÓN PARA EL SUPERVISOR -->
+                <div class="space-y-4">
+                    <div class="glass-panel p-4 rounded-xl border border-slate-800">
+                        <h4 class="font-bold text-emerald-400 text-sm mb-2"><i class="fa-solid fa-sliders mr-2"></i>Rendimiento del Asistente</h4>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Consultas Atendidas:</span>
+                                <span class="font-bold text-white">1,240 este mes</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Derivados a Técnico:</span>
+                                <span class="font-bold text-amber-400">42 productores</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Puntaje Ponderado:</span>
+                                <span class="font-bold text-emerald-400">3.85 / 5.0 (Elegida)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-4 rounded-xl border border-slate-800">
+                        <h4 class="font-bold text-slate-200 text-sm mb-2"><i class="fa-solid fa-handshake mr-2"></i>Alianzas Clave (ODS 17)</h4>
+                        <ul class="text-xs space-y-2 text-slate-300">
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-building-columns text-emerald-400"></i>
+                                <span>Municipalidad de San Jerónimo y OEFA</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-graduation-cap text-emerald-400"></i>
+                                <span>UNSAAC (Investigación Halanocca & Huamán)</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <i class="fa-solid fa-users text-emerald-400"></i>
+                                <span>Asociación local de 194 productores</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- VENTANA MODAL INTERACTIVA PARA DETALLES DEL HORNO -->
+    <div id="modal-horno" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="glass-panel bg-slate-900 border border-slate-700 rounded-xl p-6 max-w-lg w-full space-y-4 shadow-2xl relative">
+            <div class="flex justify-between items-start border-b border-slate-800 pb-3">
+                <div>
+                    <h3 id="modal-titulo" class="text-lg font-bold text-white">Detalle de Horno</h3>
+                    <p id="modal-sector" class="text-xs text-slate-400">Sector</p>
+                </div>
+                <button onclick="cerrarModalHorno()" class="text-slate-400 hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                        <span class="text-slate-400 block">Estado Actual:</span>
+                        <span id="modal-estado" class="font-bold text-amber-400 text-sm">--</span>
+                    </div>
+                    <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                        <span class="text-slate-400 block">Nivel SO₂ Detectado:</span>
+                        <span id="modal-so2" class="font-bold text-white text-sm">--</span>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-950 p-3 rounded border border-slate-800">
+                    <span class="text-slate-400 block">Nivel CO Registrado:</span>
+                    <span id="modal-co" class="font-bold text-red-400 text-sm">--</span>
+                </div>
+
+                <div class="bg-slate-800/60 p-3 rounded border border-slate-700">
+                    <span class="text-emerald-400 font-semibold block mb-1">Informe Técnico de Visión IA:</span>
+                    <p id="modal-desc" class="text-slate-300 leading-relaxed">--</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 border-t border-slate-800 pt-3">
+                <button onclick="cerrarModalHorno()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 rounded-lg">Cerrar</button>
+                <button onclick="alert('Se ha enviado una notificación de inspección prioritaria a la cuadrilla de campo de San Jerónimo.')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white rounded-lg shadow">
+                    Despachar Inspector
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 border-t border-slate-800 py-3 px-6 text-center text-xs text-slate-500">
+        Plataforma Experimental de Monitoreo Ambiental | ODS 11 (Ciudades Sostenibles) y ODS 17 (Alianzas)
+    </footer>
+
+    <!-- LÓGICA EN JAVASCRIPT -->
+    <script>
+        // CAMBIO ENTRE LOS 3 APARTADOS
+        function switchTab(tab) {
+            document.getElementById('sec-sensores').classList.add('hidden');
+            document.getElementById('sec-imagenes').classList.add('hidden');
+            document.getElementById('sec-asistente').classList.add('hidden');
+
+            document.getElementById('tab-sensores').classList.remove('tab-active');
+            document.getElementById('tab-imagenes').classList.remove('tab-active');
+            document.getElementById('tab-asistente').classList.remove('tab-active');
+
+            document.getElementById('tab-' + tab).classList.add('tab-active');
+            document.getElementById('sec-' + tab).classList.remove('hidden');
+        }
+
+        // FUNCIONALIDAD DEL MODAL DE INFORMACIÓN DE IMÁGENES
+        function mostrarModalHorno(codigo, sector, estado, so2, co, desc) {
+            document.getElementById('modal-titulo').innerText = 'Ficha del Horno ' + codigo;
+            document.getElementById('modal-sector').innerText = 'Ubicación: Sector ' + sector + ' (San Jerónimo)';
+            document.getElementById('modal-estado').innerText = estado;
+            document.getElementById('modal-so2').innerText = so2;
+            document.getElementById('modal-co').innerText = co;
+            document.getElementById('modal-desc').innerText = desc;
+
+            const modal = document.getElementById('modal-horno');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function cerrarModalHorno() {
+            const modal = document.getElementById('modal-horno');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // CHAT INTERACTIVO
+        function enviarMensaje() {
+            const input = document.getElementById('chat-input');
+            const texto = input.value.trim();
+            if(!texto) return;
+
+            const chatBody = document.getElementById('chat-body');
+            
+            const userMsg = document.createElement('div');
+            userMsg.className = 'bg-emerald-900/60 ml-auto p-3 rounded-lg max-w-md border border-emerald-700/50 text-slate-100';
+            userMsg.innerText = texto;
+            chatBody.appendChild(userMsg);
+
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'bg-slate-800/80 p-3 rounded-lg max-w-md border border-slate-700 text-slate-200';
+                
+                if(texto.toLowerCase().includes('humo') || texto.toLowerCase().includes('emisiones')) {
+                    botMsg.innerHTML = "<strong>Asistente IA:</strong> Recomendamos controlar el flujo de oxígeno y utilizar combustible biomásico seco. Esto reduce las emisiones de SO₂ y monóxido de carbono en hasta un 35%.";
+                } else if(texto.toLowerCase().includes('tecnico') || texto.toLowerCase().includes('ayuda')) {
+                    botMsg.innerHTML = "<strong>Asistente IA:</strong> Se ha notificado al Ingeniero Supervisor del sector San Jerónimo para asistencia en campo.";
+                } else {
+                    botMsg.innerHTML = "<strong>Asistente IA:</strong> Consulta registrada en el sistema de fiscalización y acompañamiento técnico.";
+                }
+
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 700);
+        }
+
+        // DIBUJAR GRÁFICOS DE CHART.JS
+        window.onload = function() {
+            // Gráfico 1: Sensores
+            const ctxSensores = document.getElementById('chartSensores').getContext('2d');
+            new Chart(ctxSensores, {
+                type: 'line',
+                data: {
+                    labels: ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+                    datasets: [
+                        {
+                            label: 'SO₂ (µg/m³)',
+                            data: [15, 22, 30, 48, 42, 25],
+                            borderColor: '#F59E0B',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'CO (ppm)',
+                            data: [3, 4, 6, 12, 9, 5],
+                            borderColor: '#EF4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#94A3B8' } } },
+                    scales: {
+                        x: { ticks: { color: '#94A3B8' }, grid: { color: '#334155' } },
+                        y: { ticks: { color: '#94A3B8' }, grid: { color: '#334155' } }
+                    }
+                }
+            });
+
+            // Gráfico 2: Matriz de Selección
+            const ctxMatriz = document.getElementById('chartMatriz').getContext('2d');
+            new Chart(ctxMatriz, {
+                type: 'bar',
+                data: {
+                    labels: ['1. Sensores de Aire', '2. Imágenes y Visión', '3. Asistente (Elegida)'],
+                    datasets: [{
+                        label: 'Puntaje Ponderado (1 a 5)',
+                        data: [3.55, 3.15, 3.85],
+                        backgroundColor: ['#3B82F6', '#8B5CF6', '#10B981'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#94A3B8' }, grid: { display: false } },
+                        y: { min: 0, max: 5, ticks: { color: '#94A3B8' }, grid: { color: '#334155' } }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
+"""
+
+# Guardar la versión actualizada en index.html
+with open("index.html", "w", encoding="utf-8") as file:
+    file.write(html_content)
+
+print("¡Archivo 'index.html' actualizado correctamente con imágenes válidas de ladrilleras y tejerías!")
